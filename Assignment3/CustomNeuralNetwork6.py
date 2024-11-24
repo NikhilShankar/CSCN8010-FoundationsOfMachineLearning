@@ -1,0 +1,23 @@
+from tensorflow import keras
+from tensorflow.keras import layers
+import matplotlib.pyplot as plt
+
+class CustomNeuralNetwork6:
+
+
+    def __init__(self):
+        inputs = keras.Input(shape=(180, 180, 3))
+        x = layers.Rescaling(1./255)(inputs)
+        x = layers.Conv2D(filters=32, kernel_size=3, activation="relu")(x)
+        #removed maxpooling at the start
+        #x = layers.MaxPooling2D(pool_size=2)(x)
+        x = layers.Conv2D(filters=64, kernel_size=3, activation="relu")(x)
+        x = layers.MaxPooling2D(pool_size=2)(x)
+        x = layers.Conv2D(filters=128, kernel_size=3, activation="relu")(x)
+        x = layers.MaxPooling2D(pool_size=2)(x)
+        x = layers.Conv2D(filters=256, kernel_size=3, activation="relu")(x)
+        x = layers.MaxPooling2D(pool_size=2)(x)
+        x = layers.Conv2D(filters=256, kernel_size=3, activation="relu")(x)
+        x = layers.Flatten()(x)
+        outputs = layers.Dense(1, activation="sigmoid")(x)
+        self.model = keras.Model(inputs=inputs, outputs=outputs)
